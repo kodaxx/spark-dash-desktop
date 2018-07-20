@@ -3,9 +3,10 @@ var spark = {
 
     getExchangeRate: function(token, currency) {
       return new Promise(resolve => {
-        spark.utils.ajax(`https://min-api.cryptocompare.com/data/generateAvg?fsym=${token}&tsym=${currency}&e=CCCAGG`)
+        spark.utils.ajax(`https://min-api.cryptocompare.com/data/price?fsym=${token}&tsyms=${currency}`)
           .then(function(result) {
-            resolve(result.RAW.PRICE);
+            console.log(result);
+            resolve(result[currency]);
           })
           .catch(function(e) {
             console.log(`error: ${e}`);
