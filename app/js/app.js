@@ -35,7 +35,8 @@ var app = new Vue({
     },
     address: '',
     initial: 0,
-    recent: ''
+    recent: '',
+    locked: false
   },
   methods: {
     //clear usd price, steem price, and memo
@@ -108,7 +109,7 @@ var app = new Vue({
           clearTimeout(timeout);
         }
         //if block explorer query function returns true
-        if (await spark.utils.verify(url, app.$data.initial, parseFloat(app.$data.price.dash)) === true) {
+        if (await spark.utils.verify(url, app.$data.initial, parseFloat(app.$data.price.dash))) {
           console.log('transaction found');
           //play kaching sound effect
           document.getElementById("kaching").play();
@@ -145,11 +146,6 @@ var app = new Vue({
       //clear prices, memo, and return home
       this.clear();
       this.route = 'home';
-    },
-    //grabs recent transactions and shows page
-    recentSales: async function() {
-      // this.recent = await spark.account.getUserHistory(this.account);
-      this.route = 'recent';
     },
     //saves input value to local storage and return home
     save: async function() {

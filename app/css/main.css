@@ -44,6 +44,14 @@ body {
   text-align: center;
 }
 
+#menu {
+  color: #b2b2b2;
+  font-size: 8vw;
+  position: absolute;
+  top: 2vw;
+  left: 5vw;
+}
+
 .left {
   float: left;
 }
@@ -196,6 +204,15 @@ img {
   margin: 27px auto;
   height: 50vh;
   width: auto;
+}
+
+.lock {
+  width: 5.5vw;
+  display: inline;
+}
+
+.unlocked {
+  fill: var(--red);
 }
 
 /* ANIMATIONS */

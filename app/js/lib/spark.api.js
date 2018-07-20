@@ -55,6 +55,7 @@ var spark = {
               latest = result.txs[0].txid;
               temp = result.txs[0].vout[0].value;
               if (latest != initial) {
+                app.$data.locked = result.txs[0].txlock;
                 result.txs[0].vout.forEach(function(output) {
                   if (output.scriptPubKey.addresses[0] === app.$data.address) {
                     found = output.value;

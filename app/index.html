@@ -24,7 +24,7 @@
       <div id="loader" v-show="route === 'loader'"><span id="status" class="dark">loading...</span></div>
     </transition>
     <div id='content'>
-      <span @click="route = 'settings'" v-show="route == 'home'" style="color: #b2b2b2; font-size: 8vw; position: absolute; top: 2vw; left: 5vw;">☰</span>
+      <span @click="route = 'settings'" v-show="route == 'home'" id="menu">☰</span>
       <img class='logo' src='img/logo.png'>
       <!-- CONNECTION -->
       <transition name="fade">
@@ -69,9 +69,7 @@
           <div class="secondary maintext info"><span class='price'>{{ price.native }} {{ settings.currency }}</span></div>
           <p class="secondary subtext">~ {{ settings.format === 'mdash' ? price.mdash : price.dash }}</p>
           <img id="qr" class="" />
-          <p v-show="price.received > 0" class="secondary maintext confirm">received: {{ settings.format === 'DASH' ? price.received.toFixed(8) : (price.received * 1000000).toFixed(2) }} {{ settings.format
-            }}
-          </p>
+          <p v-show="price.received > 0" class="secondary maintext confirm">received: {{ settings.format === 'dash' ? parseFloat(price.received).toFixed(8) : (price.received * 1000000).toFixed(2) }} {{ settings.format }}</p>
           <p v-show="price.received == 0" class="secondary maintext confirm">waiting for payment...</p>
           <div class="center">
             <progress id="waiting" value="0" max="120"></progress>
@@ -86,7 +84,7 @@
       <transition name="fade">
         <div id="confirm" v-show="route === 'confirmed'">
           <br>
-          <p class="dark maintext confirm">Payment Received!</p>
+          <p class="dark maintext confirm">Payment Received!&nbsp;<img v-show="locked === false" class="lock" src="img/unlocked.png"></p>
           <br>
           <img src='img/confirm.png'>
           <br>
@@ -109,39 +107,6 @@
           <br>
           <div class='center'>
             <button @click="cancel">done</button>
-          </div>
-        </div>
-      </transition>
-      <!-- PARTIAL -->
-      <transition name="fade">
-        <div id="partial" v-show="route === 'partial'">
-          <br>
-          <br>
-          <div class="primary maintext info"><span id='partialPrice'>partial price</span> remaining</div>
-          <p class="dark maintext confirm">Partial Payment!</p>
-        </div>
-      </transition>
-      <!-- RECENT SALES -->
-      <transition name="fade">
-        <div id="recent" v-show="route === 'recent'">
-          <br>
-          <br>
-          <div v-for="item in recent">
-            <div v-if="item.details.to === settings.account && item.details.amount.includes('STEEM')" class="tx-wrap">
-              <p>
-                <span class="left">{{ `@${item.details.from}` }}</span>
-                <span class="right">{{ item.details.amount }}</span>
-              </p>
-              <br>
-              <p>
-                <span class="tx-detail left">{{ `id: ${item.details.memo}` }}</span>
-                <span class="tx-detail right">{{ `${item.timestamp.split('T')[0]} @ ${item.timestamp.split('T')[1]}` }}</span>
-              </p>
-              <br>
-            </div>
-          </div>
-          <div class='center'>
-            <button @click="cancel">back</button>
           </div>
         </div>
       </transition>
