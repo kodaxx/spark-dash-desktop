@@ -1,7 +1,14 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const Menu = require('electron').Menu
+const isDev = require('electron-is-dev');  // this is required to check if the app is running in development mode.
+const {appUpdater} = require('./autoupdater');
 var path = require('path')
+
+// Function to check the current OS. As of now there is no proper method to add auto-updates to linux platform.
+function isWindowsOrmacOS() {
+	return process.platform === 'darwin' || process.platform === 'win32';
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -14,10 +21,9 @@ function createWindow () {
     height: 680,
     resizable: false,
     maximizable: false,
-    //not able to open devTools - commenting out during beta for debug
-    //webPreferences: {
-      //devTools: false
-    //},
+    webPreferences: {
+      devTools: false
+    },
     icon: path.join(__dirname, 'assets/icons/png/64x64.png')
   })
 
@@ -90,6 +96,14 @@ function createMenu() {
 app.on('ready', () => {
   createWindow()
   createMenu()
+  const page = mainWindow.webContents;
+
+    page.once('did-frame-finish-load', () => {
+      const checkOS = isWindowsOrmacOS();
+      if (checkOS && !isDev) {
+        // Initate auto-updates on macOs and windows
+        appUpdater();
+      }});
 })
 
 // Quit when all windows are closed.

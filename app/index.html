@@ -25,6 +25,7 @@
     </transition>
     <div id='content'>
       <span @click="route = 'settings'" v-show="route == 'home'" id="menu">☰</span>
+      <span @click="route = 'home'" v-show="route == 'settings'" id="menu">⬅</span>
       <img class='logo' src='img/logo.png'>
       <!-- CONNECTION -->
       <transition name="fade">
@@ -69,7 +70,8 @@
           <div class="secondary maintext info"><span class='price'>{{ price.native }} {{ settings.currency }}</span></div>
           <p class="secondary subtext">~ {{ settings.format === 'mdash' ? price.mdash : price.dash }}</p>
           <img id="qr" class="" />
-          <p v-show="price.received > 0" class="secondary maintext confirm">received: {{ settings.format === 'dash' ? parseFloat(price.received).toFixed(8) : (price.received * 1000000).toFixed(2) }} {{ settings.format }}</p>
+          <p v-show="price.received > 0" class="secondary maintext confirm">received: {{ settings.format === 'dash' ? parseFloat(price.received).toFixed(8) : (price.received
+            * 1000000).toFixed(2) }} {{ settings.format }}</p>
           <p v-show="price.received == 0" class="secondary maintext confirm">waiting for payment...</p>
           <div class="center">
             <progress id="waiting" value="0" max="120"></progress>
