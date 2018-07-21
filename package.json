@@ -47,8 +47,5 @@
   "devDependencies": {
     "electron": "^2.0.0",
     "electron-builder": "^20.24.4"
-  },
-  "dependencies": {
-    "npm": "^6.2.0"
   }
 }
