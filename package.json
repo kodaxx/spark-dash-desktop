@@ -13,15 +13,20 @@
   },
   "build": {
     "appId": "org.spark.terminal",
+    "asar": true,
+    "mac": {
+      "category": "public.app-category.finance"
+    },
     "dmg": {
+      "icon": "build/icon.icns",
       "contents": [
         {
           "x": 110,
-          "y": 150
+          "y": 280
         },
         {
-          "x": 240,
-          "y": 150,
+          "x": 380,
+          "y": 280,
           "type": "link",
           "path": "/Applications"
         }

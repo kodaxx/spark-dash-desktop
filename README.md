@@ -1,6 +1,6 @@
 # Spark Payments (DASH)
 
-This is the desktop version of the Spark Payments mobile app
+This is the desktop version of the Spark Payments app
 
 ## To Develop
 
@@ -18,9 +18,6 @@ npm start
 ## To Build
 
 ```bash
-#Run the build scripts
-npm run package-mac
-npm run package-linux
-npm run package-win
-npm run create-debian-installer
+#Run the build script for your platform
+npm run dist
 ```
