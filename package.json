@@ -44,7 +44,7 @@
       "icon": "build/icon.ico"
     }
   },
-  "repository": "https://github.com/kodaxx/spark-payments-dash",
+  "repository": "https://github.com/kodaxx/spark-dash-desktop",
   "devDependencies": {
     "electron": "^2.0.0",
     "electron-builder": "^20.24.4"

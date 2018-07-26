@@ -50,11 +50,9 @@ var spark = {
             let status = false;
             let latest = '0';
             let found = 0;
-            let temp = 0;
             let expected = parseFloat(price).toFixed(8);
             if (result.txs.length > 0) {
               latest = result.txs[0].txid;
-              temp = result.txs[0].vout[0].value;
               if (latest != initial) {
                 app.$data.locked = result.txs[0].txlock;
                 result.txs[0].vout.forEach(function(output) {
@@ -68,7 +66,6 @@ var spark = {
             console.log(result);
             console.log(`expected amount: ${expected}`);
             console.log(`found amount: ${found}`);
-            console.log(`actual found: ${temp}`);
             if (latest != initial && found >= expected && expected != 0) {
               status = true;
             }

@@ -38,6 +38,20 @@ var app = new Vue({
     recent: '',
     locked: false
   },
+  computed: {
+    amountInput: function() {
+      if (this.settings.currency.match( /BYN|CLP|ISK|JPY|KRW|PYG|UGX|UYU|VND/g ) !== null) {
+        //these currencies have no decimals
+        return this.price.native || 0;
+      } else if (this.settings.currency.match( /BHD|KWD|OMR/g ) !== null) {
+        //these currencies have 3 decimals
+        return parseFloat(this.price.native / 100).toFixed(3) || 0;
+      } else {
+        //these currencies have 2 decimals
+        return parseFloat(this.price.native / 100).toFixed(2) || 0;
+      }
+    }
+  },
   methods: {
     //clear usd price, steem price, and memo
     clear: function() {
@@ -49,7 +63,7 @@ var app = new Vue({
     },
     //adds pressed key to amount display
     add: function(num) {
-      this.price.native = `${this.price.native}${num}`;
+      this.price.native = this.price.native + num;
     },
     remove: function() {
       this.price.native = this.price.native.slice(0, -1);
@@ -64,12 +78,12 @@ var app = new Vue({
       //show loading screen
       this.route = 'loader'
       //get current price
-      this.price.dash = `${(parseFloat(this.price.native) / parseFloat(await spark.utils.getExchangeRate('DASH', this.settings.currency))).toFixed(8)} DASH`;
+      this.price.dash = `${(this.amountInput / parseFloat(await spark.utils.getExchangeRate('DASH', this.settings.currency))).toFixed(8)} DASH`;
       //set pice in mdash
       this.price.mdash = `${(parseFloat(this.price.dash) * 1000).toFixed(5)} mDash`;
       //get new address for handle
       this.address = await spark.utils.getAddress(this.settings.account);
-      //generate QR code with bitcoincash URL and price
+      //generate QR code with dash URL and price
       let qr = new QRious({
         element: document.getElementById('qr'),
         backgroundAlpha: 0,

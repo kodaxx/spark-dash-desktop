@@ -25,7 +25,7 @@
     </transition>
     <div id='content'>
       <span @click="route = 'settings'" v-show="route == 'home'" id="menu">☰</span>
-      <span @click="route = 'home'" v-show="route == 'settings'" id="menu">⬅</span>
+      <span @click="route = 'home'" v-show="route == 'settings'" id="menu">✕</span>
       <img class='logo' src='img/logo.png'>
       <!-- CONNECTION -->
       <transition name="fade">
@@ -39,7 +39,7 @@
         <div id="sale" v-show="route === 'home'">
           <div class="center">
             <form autocomplete='off'>
-              <input v-model='price.native' type='text' class='input pad' value='' disabled>
+              <input v-model='amountInput' type='text' class='input pad' value='' disabled>
               <br>
               <input @click="add('1')" type='button' class='button number' value='1'>
               <input @click="add('2')" type='button' class='button number' value='2'>
@@ -53,13 +53,11 @@
               <input @click="add('8')" type='button' class='button number' value='8'>
               <input @click="add('9')" type='button' class='button number' value='9'>
               <br>
-              <input @click="add('.')" type='button' class='button number' value='.'>
               <input @click="add('0')" type='button' class='button number' value='0'>
               <input @click="add('00')" type='button' class='button number' value='00'>
-              <br>
               <input @click="remove" type='button' class='button clear' value='⌫'>
-              <input @click="clear" type='button' class='button clear' value='clear'>
-              <input @click="purchase" type='button' class='button enter' value='enter'>
+              <br>
+              <button @click.prevent="purchase" class="charge">charge</button>
             </form>
           </div>
         </div>
@@ -67,7 +65,7 @@
       <!-- PURCHASE PAGE -->
       <transition name="fade">
         <div id="purchase" v-show="route === 'qr'">
-          <div class="secondary maintext info"><span class='price'>{{ price.native }} {{ settings.currency }}</span></div>
+          <div class="secondary maintext info"><span class='price'>{{ amountInput }} {{ settings.currency }}</span></div>
           <p class="secondary subtext">~ {{ settings.format === 'mdash' ? price.mdash : price.dash }}</p>
           <img id="qr" class="" />
           <p v-show="price.received > 0" class="secondary maintext confirm">received: {{ settings.format === 'dash' ? parseFloat(price.received).toFixed(8) : (price.received
@@ -78,7 +76,7 @@
           </div>
           <br>
           <div class='center'>
-            <button @click="cancel">cancel</button>
+            <button @click="cancel" class="cancel">cancel</button>
           </div>
         </div>
       </transition>
@@ -93,7 +91,7 @@
           <p class="dark maintext confirm">Thank you!</p>
           <br>
           <div class='center'>
-            <button @click="cancel">done</button>
+            <button @click="cancel" class="regular">done</button>
           </div>
         </div>
       </transition>
@@ -108,7 +106,7 @@
           <p class="dark maintext confirm">Please try again.</p>
           <br>
           <div class='center'>
-            <button @click="cancel">done</button>
+            <button @click="cancel" class="regular">done</button>
           </div>
         </div>
       </transition>
@@ -164,7 +162,7 @@
                 <option value="JPY">JPY - Japanese Yen</option>
                 <option value="KES">KES - Kenyan Shilling</option>
                 <option value="KRW">KRW - South Korean Won</option>
-                <option value="KWD">KWD - Kuwaiti Dinar</option>
+                <!-- <option value="KWD">KWD - Kuwaiti Dinar</option> 3 decimal places -->
                 <option value="KYD">KYD - Cayman Islands Dollar</option>
                 <option value="KZT">KZT - Kazakhstani Tenge</option>
                 <option value="LAK">LAK - Laotian Kip</option>
@@ -186,7 +184,7 @@
                 <option value="NOK">NOK - Norwegian Krone</option>
                 <option value="NPR">NPR - Nepalese Rupee</option>
                 <option value="NZD">NZD - New Zealand Dollar</option>
-                <option value="OMR">OMR - Omani Rial</option>
+                <!-- <option value="OMR">OMR - Omani Rial</option> 3 decimal places -->
                 <option value="PEN">PEN - Peruvian Sol</option>
                 <option value="PGK">PGK - Papua New Guinean Kina</option>
                 <option value="PHP">PHP - Philippine Peso</option>
@@ -222,7 +220,7 @@
                 <option value="dash">DASH</option>
                 <option value="mdash">mDash</option>
               </select>
-              <button @click.prevent="save">save</button>
+              <button @click.prevent="save" class="regular">save</button>
             </form>
           </div>
         </div>
